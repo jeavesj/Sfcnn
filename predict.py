@@ -3,10 +3,11 @@
 
 # In[6]:
 from tensorflow.keras.layers import Conv3D, MaxPooling3D, Dropout, Dense, Flatten, Activation, BatchNormalization
-from openbabel import pybel
+import pybel
 import numpy as np
 import tensorflow as tf
 import os
+import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # In[11]:
@@ -142,6 +143,7 @@ def main():
     parser.add_argument('--output', '-o', default='predicted_pKa.out', help='output file')
     args = parser.parse_args()
 
+    t0 = time.time()
     ligands = list(pybel.readfile(args.lff,args.ligand))
     protein = next(pybel.readfile(args.pff,args.protein))
     model = build_model()
@@ -149,8 +151,9 @@ def main():
         f.write('Predict the affinity of %s and %s\n' % (args.protein, args.ligand))
         for ligand in ligands:
             result = predict(protein, ligand, model)
-            f.write('%.4f\n' % result)
-    print('Done!')
+            # f.write('%.4f\n' % result)
+            print('%.4f\n' % result, time.time()-t0)
+    # print('Done!')
 
 
 if __name__ == '__main__':
