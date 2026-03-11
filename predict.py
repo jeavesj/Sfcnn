@@ -152,7 +152,7 @@ def main():
         for ligand in ligands:
             result = predict(protein, ligand, model)
             # f.write('%.4f\n' % result)
-            print('%.4f\n' % result, time.time()-t0)
+            print '%.4f' % result, time.time()-t0
     # print('Done!')
 
 
